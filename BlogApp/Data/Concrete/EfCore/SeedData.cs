@@ -8,6 +8,7 @@ namespace BlogApp.Data.Concrete.EfCore{
             var context = app.ApplicationServices.CreateScope().ServiceProvider.GetService<BlogContext>();
 
             if(context != null){
+                if(context.Database.GetPendingMigrations().Any()){
                 context.Database.Migrate();
             }
             if(!context.Tags.Any()){
@@ -33,6 +34,7 @@ namespace BlogApp.Data.Concrete.EfCore{
                         Title = "Asp.net Core Bootcamp",
                         Content = "Asp.net core dersleri başladı.",
                         IsActive = true,
+                        Image = "1.jpg",
                         PublishedOn = DateTime.Now.AddDays(-10),
                         Tags = context.Tags.Take(3).ToList(),
                         UserId = 1
@@ -41,6 +43,7 @@ namespace BlogApp.Data.Concrete.EfCore{
                         Title = "Doğus Teknoloji Bootcamp",
                         Content = "Derslerimiz başladı.",
                         IsActive = true,
+                        Image = "2.jpg",
                         PublishedOn = DateTime.Now.AddDays(-20),
                         Tags = context.Tags.Take(2).ToList(),
                         UserId = 1
@@ -49,6 +52,7 @@ namespace BlogApp.Data.Concrete.EfCore{
                         Title = "Backend Bootcamp",
                         Content = "Derslerimiz başladı.",
                         IsActive = true,
+                        Image = "3.jpg",
                         PublishedOn = DateTime.Now.AddDays(-25),
                         Tags = context.Tags.Take(4).ToList(),
                         UserId = 2
@@ -58,5 +62,6 @@ namespace BlogApp.Data.Concrete.EfCore{
 
             }
         }
+    }
     }
 }
