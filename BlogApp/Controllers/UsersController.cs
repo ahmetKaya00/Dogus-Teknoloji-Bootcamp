@@ -21,7 +21,36 @@ namespace BlogApp.Controllers{
 
         [HttpGet]
         public IActionResult Login(){
+            if(User.Identity!.IsAuthenticated){
+                return RedirectToAction("Index","Posts");
+            }
             return View();
+        }
+        public async Task<IActionResult>Logout(){
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login");
+        }
+        public IActionResult Register(){
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel model){
+            if(ModelState.IsValid){
+                var user = await _userRepository.Users.FirstOrDefaultAsync(x=>x.UserName == model.Username || x.Email == model.Email);
+                if(user == null){
+                    _userRepository.CreateUser(new Entity.User {
+                        UserName = model.Username,
+                        Name = model.Name,
+                        Email = model.Email,
+                        Password = model.Password,
+                        Image = "p1.jpg"
+                    });
+                return RedirectToAction("Login");
+                }else{
+                    ModelState.AddModelError("","Username ya da Email kullanımda.");
+                }
+            }
+            return View(model);
         }
 
         [HttpPost]
@@ -35,6 +64,7 @@ namespace BlogApp.Controllers{
                     userClaims.Add(new Claim(ClaimTypes.NameIdentifier, isUser.UserId.ToString()));
                     userClaims.Add(new Claim(ClaimTypes.Name, isUser.UserName ?? ""));
                     userClaims.Add(new Claim(ClaimTypes.GivenName, isUser.Name ?? ""));
+                    userClaims.Add(new Claim(ClaimTypes.UserData, isUser.Image ?? ""));
 
                     if(isUser.Email == "info@ahmetkaya.com"){
                         userClaims.Add(new Claim(ClaimTypes.Role, "admin"));
@@ -59,5 +89,16 @@ namespace BlogApp.Controllers{
             return View(model);
         }
 
+        public IActionResult Profile(string username){
+            if(string.IsNullOrEmpty(username)){
+                return NotFound();
+            }
+            var user = _userRepository.Users.Include(x=>x.Posts).Include(x=>x.Comments).ThenInclude(x=>x.Post).FirstOrDefault(x=>x.UserName == username);
+
+            if(user == null){
+                return NotFound();
+            }
+            return View(user);
+        }
     }       
 }

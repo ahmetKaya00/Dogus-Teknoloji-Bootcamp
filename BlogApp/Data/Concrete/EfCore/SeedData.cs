@@ -33,6 +33,7 @@ namespace BlogApp.Data.Concrete.EfCore{
                     new Post{
                         Title = "Asp.net Core Bootcamp",
                         Content = "Asp.net core dersleri başladı.",
+                        Description = "Asp.net core dersleri .",
                         Url = "aspnet-core-bootcamp",
                         IsActive = true,
                         Image = "1.jpg",
@@ -46,7 +47,8 @@ namespace BlogApp.Data.Concrete.EfCore{
                     },
                     new Post{
                         Title = "Doğus Teknoloji Bootcamp",
-                        Content = "Derslerimiz başladı.",
+                        Content = "Derslerimiz başladı.", 
+                        Description = "Derslerimiz.", 
                         Url = "dogus-teknoloji-bootcamp",
                         IsActive = true,
                         Image = "2.jpg",
@@ -57,6 +59,7 @@ namespace BlogApp.Data.Concrete.EfCore{
                     new Post{
                         Title = "Backend Bootcamp",
                         Content = "Derslerimiz başladı.",
+                        Description = "Derslerimiz.",
                         Url = "backend-bootcamp",
                         IsActive = true,
                         Image = "3.jpg",
