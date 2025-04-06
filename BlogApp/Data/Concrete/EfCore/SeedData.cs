@@ -13,18 +13,18 @@ namespace BlogApp.Data.Concrete.EfCore{
             }
             if(!context.Tags.Any()){
                 context.Tags.AddRange(
-                    new Tag{Text = "web programlama"},
-                    new Tag{Text = "backend"},
-                    new Tag{Text = "frontend"},
-                    new Tag{Text = "game"},
-                    new Tag{Text = "fullstack"}
+                    new Tag{Text = "web programlama", Url = "web-programlama", Color = TagColors.primary},
+                    new Tag{Text = "backend", Url = "backend", Color = TagColors.danger},
+                    new Tag{Text = "frontend", Url = "frontend", Color = TagColors.secondary},
+                    new Tag{Text = "game", Url= "game", Color = TagColors.success},
+                    new Tag{Text = "fullstack",Url = "full-stack", Color = TagColors.warning}
                 );
                 context.SaveChanges();
             }
             if(!context.Users.Any()){
                 context.Users.AddRange(
-                    new User {UserName = "ahmetkaya"},
-                    new User {UserName = "siartemur"}
+                    new User {UserName = "ahmetkaya",Image = "p1.jpg", Name = "Ahmet Kaya", Email = "info@ahmetkaya.com",Password="123456"},
+                    new User {UserName = "siartemur", Image = "p2.jpg", Name = "Siar Temur", Email = "info@siartemur.com",Password="123456"}
                 );
                 context.SaveChanges();
             }
@@ -33,15 +33,21 @@ namespace BlogApp.Data.Concrete.EfCore{
                     new Post{
                         Title = "Asp.net Core Bootcamp",
                         Content = "Asp.net core dersleri başladı.",
+                        Url = "aspnet-core-bootcamp",
                         IsActive = true,
                         Image = "1.jpg",
                         PublishedOn = DateTime.Now.AddDays(-10),
                         Tags = context.Tags.Take(3).ToList(),
-                        UserId = 1
+                        UserId = 1,
+                        Comments = new List<Comment>{
+                            new Comment {Text = "Başarılı bir şekilde başlamadı",PublishedOn = new DateTime(),UserId =2},
+                            new Comment {Text = "Başarılı bir şekilde başladı",PublishedOn = new DateTime(),UserId =1},
+                        }
                     },
                     new Post{
                         Title = "Doğus Teknoloji Bootcamp",
                         Content = "Derslerimiz başladı.",
+                        Url = "dogus-teknoloji-bootcamp",
                         IsActive = true,
                         Image = "2.jpg",
                         PublishedOn = DateTime.Now.AddDays(-20),
@@ -51,6 +57,7 @@ namespace BlogApp.Data.Concrete.EfCore{
                     new Post{
                         Title = "Backend Bootcamp",
                         Content = "Derslerimiz başladı.",
+                        Url = "backend-bootcamp",
                         IsActive = true,
                         Image = "3.jpg",
                         PublishedOn = DateTime.Now.AddDays(-25),
@@ -59,7 +66,6 @@ namespace BlogApp.Data.Concrete.EfCore{
                     }
                 );
                 context.SaveChanges();
-
             }
         }
     }
